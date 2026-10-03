@@ -1,0 +1,158 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: var(--space-7);
+}
+
+.title {
+  margin: 0 0 clamp(28px, 5vh, 56px);
+  font-family: var(--font-script);
+  font-size: clamp(2.6rem, 6.5vw, 4.2rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+/* A linha vertical e os pontos são desenhados por cada entrada, na posição
+   --line-x: na borda esquerda no celular e entre data e conteúdo no desktop. */
+.timeline {
+  --line-x: 0px;
+  --gap: clamp(36px, 6vh, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry {
+  position: relative;
+  display: grid;
+  gap: var(--space-1);
+  padding-left: 24px;
+}
+
+/* Linha: cobre a entrada e o espaço até a próxima, para ficar contínua. */
+.entry::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: calc(var(--gap) * -1);
+  left: var(--line-x);
+  width: 1px;
+  background: var(--line);
+}
+
+/* A última entrada não tem próxima: a linha se desfaz suavemente. */
+.entry:last-child::before {
+  bottom: 0;
+  mask-image: linear-gradient(to bottom, #000 40%, transparent);
+}
+
+/* Ponto */
+.entry::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: calc(var(--line-x) - 4.5px);
+  width: 10px;
+  height: 10px;
+  box-sizing: border-box;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+/* Entrada atual: ponto cheio com um anel suave (estático, sem animação). */
+.entry[data-current="true"]::after {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--sheen-2);
+}
+
+.period {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+.body {
+  min-width: 0;
+}
+
+.role {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.company {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+}
+
+.bullets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 62ch;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(1rem, 1.3vw, 1.12rem);
+  line-height: 1.55;
+}
+
+.bullets li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.bullets li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+.cv {
+  display: inline-block;
+  margin-top: var(--space-6);
+  color: var(--accent);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+
+.cv:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 640px) {
+  .timeline {
+    --line-x: 174px;
+  }
+
+  .entry {
+    grid-template-columns: 150px 1fr;
+    column-gap: var(--space-5);
+    padding-left: 0;
+  }
+
+  /* Data alinhada à direita, colada à linha, na altura do cargo. */
+  .period {
+    padding-top: 3px;
+    text-align: right;
+  }
+
+  .body {
+    padding-left: 30px;
+  }
+}

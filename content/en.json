@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "title": "Rafael Silva | Full Stack Developer",
+    "description": "Portfolio of Rafael Silva, web and full stack developer. Projects, tech stack and experience."
+  },
+  "a11y": {
+    "skip": "Skip to content",
+    "toggleTheme": "Toggle theme",
+    "changeLanguage": "Change language",
+    "menu": "Menu",
+    "mainNav": "Main navigation",
+    "photoAlt": "Photo of Rafael Silva",
+    "newTab": "opens in a new tab"
+  },
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "stack": "Stack",
+    "experience": "Experience",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Rafael Silva",
+    "subtitle": "Full Stack Developer",
+    "ctaProjects": "View projects",
+    "ctaContact": "Contact",
+    "scroll": "Scroll",
+    "scrollHint": "Scroll to see more"
+  },
+  "about": {
+    "title": "About me",
+    "education": "Bachelor's program in Information Systems",
+    "p1": "Web and full stack developer with experience in technology at a multinational company, where I worked in technical support, infrastructure and development.",
+    "p2": "That experience gave me a practical view of how software is used in a company's day-to-day work and what it needs to deliver to create business value. I'm always looking for opportunities where I can contribute solutions and keep growing."
+  },
+  "projects": {
+    "title": "Projects",
+    "view": "View project →",
+    "github": "GitHub ↗",
+    "screenshotAlt": "Screenshot of the {name} project",
+    "details": "Details",
+    "close": "Close",
+    "about": "About the project",
+    "features": "Key features",
+    "techLabel": "Technologies",
+    "gallery": "Image gallery",
+    "prev": "Previous image",
+    "next": "Next image",
+    "pick": "View image {n}",
+    "counter": "Image {n} of {total}",
+    "detailsOf": "Details of {name}"
+  },
+  "stack": {
+    "title": "Stack",
+    "pause": "Pause animation",
+    "play": "Resume animation",
+    "expand": "View all by category",
+    "collapse": "Hide list",
+    "groups": {
+      "languages": "Languages",
+      "web": "Web",
+      "backend": "Back-end",
+      "data": "Data",
+      "cloud": "Cloud & DevOps",
+      "tools": "Tools"
+    }
+  },
+  "experience": {
+    "title": "Experience",
+    "fullCv": "Full resume →",
+    "items": {
+      "sura": {
+        "role": "Infrastructure Intern",
+        "period": "07/2026 – present",
+        "b1": "Cloud automation and data analysis that optimized over 300 Office 365 licenses.",
+        "b2": "Certificate Manager that automated certificate renewal."
+      },
+      "birla": {
+        "role": "IT Intern / Technical Support",
+        "period": "07/2025 – 06/2026",
+        "b1": "Upgraded 100+ workstations and servers, cutting setup time by 80% with standardized images.",
+        "b2": "Level 1 support for about 200 employees, within SLA."
+      },
+      "apprentice": {
+        "role": "Administrative Assistant (Apprentice)",
+        "period": "04/2024 – 06/2025",
+        "b1": "SAP workflows, technical translation and automated management reports in Excel."
+      }
+    }
+  },
+  "contact": {
+    "title": "Let's talk.",
+    "text": "I'm open to opportunities in web and full stack development. If my work fits your team or project, I'd be glad to talk.",
+    "email": "Email",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "copy": "Copy",
+    "copied": "Copied",
+    "selectToCopy": "Select and copy",
+    "open": "Open ↗",
+    "channels": "Contact channels"
+  },
+  "footer": {
+    "copyright": "© {year} Rafael Silva",
+    "role": "Full Stack Developer"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The address you tried to open does not exist or has moved.",
+    "back": "Back to home"
+  }
+}

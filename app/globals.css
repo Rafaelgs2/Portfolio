@@ -1,49 +1,353 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "../styles/tokens.css";
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--head-h);
 }
 
 body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
   color: inherit;
-  text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+.wrap {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.wrap--narrow {
+  max-width: calc(var(--container-narrow) + var(--gutter) * 2);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
+}
+
+.skip {
+  position: absolute;
+  left: var(--space-3);
+  top: -60px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+
+.skip:focus {
+  top: var(--space-3);
+}
+
+/* Botões (hero e demais seções) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 11px 22px;
+  border-radius: var(--radius-pill);
+  font: 600 0.95rem/1.2 var(--font-ui);
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: none;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 1.5px solid var(--accent);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--fg);
+  border: 1.5px solid var(--muted);
+}
+
+.btn--secondary:hover {
+  border-color: var(--fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover {
+    transform: none;
+  }
+}
+
+/* Cada seção ocupa a tela abaixo do cabeçalho, para só uma aparecer por vez.
+   É altura mínima: se o conteúdo for maior (celular), a seção cresce.
+   Sem scroll snap: a rolagem continua nativa. */
+.screen {
+  min-height: calc(100svh - var(--head-h));
+}
+
+/* ---------- Movimento ao rolar ----------
+   O conteúdo só fica escondido depois que o JavaScript liga `data-motion="on"`
+   (e nunca com movimento reduzido), então sem JS ou sem suporte tudo aparece. */
+[data-reveal="title"] {
+  width: fit-content;
+}
+
+html[data-motion="on"] [data-reveal] {
+  transition:
+    opacity var(--dur-reveal) ease-out,
+    transform var(--dur-reveal) var(--ease-write);
+  /* Escalonamento: 80ms entre irmãos, no máximo 6 por grupo. */
+  transition-delay: calc(min(var(--i, 0), 5) * var(--reveal-stagger));
+}
+
+html[data-motion="on"] [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+  transform: translateY(var(--reveal-rise));
+}
+
+/* Título: escrito da esquerda para a direita, como o nome do hero. */
+html[data-motion="on"] [data-reveal="title"],
+html[data-motion="on"] [data-reveal="title"]:not([data-revealed]) {
+  opacity: 1;
+  transform: none;
+  transition: clip-path var(--dur-title-reveal) var(--ease-write);
+}
+
+/* Resta 1px visível: o IntersectionObserver mede a área já cortada pelo
+   clip-path, e com 100% cortado o título nunca contaria como "na tela". */
+html[data-motion="on"] [data-reveal="title"]:not([data-revealed]) {
+  clip-path: inset(-20% calc(100% - 1px) -25% -5%);
+}
+
+html[data-motion="on"] [data-reveal="title"][data-revealed] {
+  clip-path: inset(-20% -5% -25% -5%);
+}
+
+/* ---------- Ímã nos botões (só ponteiro fino) ---------- */
+.magnet {
+  translate: var(--mx, 0px) var(--my, 0px);
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    translate 0.4s ease;
+}
+
+.magnet:hover {
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    translate 0.12s ease-out;
+}
+
+/* ---------- Transição de tema: revelação circular a partir do botão ---------- */
+html[data-vt="theme"]::view-transition-old(root),
+html[data-vt="theme"]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-vt="theme"]::view-transition-new(root) {
+  animation: theme-reveal var(--dur-theme) var(--ease-write) both;
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0));
+  }
+  to {
+    clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 0));
+  }
+}
+
+/* Troca de idioma: fade cruzado curto (a transição padrão do navegador). */
+::view-transition-group(root) {
+  animation-duration: 250ms;
+}
+
+html[data-vt="theme"]::view-transition-group(root) {
+  animation-duration: var(--dur-theme);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .magnet {
+    translate: none;
+  }
+}
+
+/* ---------- Funil / túnel ----------
+   As seções "emergem do fundo" ao entrar (pequenas, descendo ao centro) e
+   crescem passando por quem rola ao sair. Anéis em perspectiva se expandem a
+   partir de um ponto de fuga. Tudo dirigido pela rolagem (animation-timeline),
+   só com suporte e sem movimento reduzido; senão a página fica normal. */
+main {
+  /* A escala das seções passa da largura da tela; `clip` não cria rolagem. */
+  overflow-x: clip;
+}
+
+.tunnel {
+  display: none;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .tunnel {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      display: block;
+      overflow: hidden;
+      pointer-events: none;
+      /* Brilho quente no ponto de fuga. */
+      background: radial-gradient(
+        ellipse 55% 45% at 50% 42%,
+        var(--sheen-2),
+        transparent 70%
+      );
+    }
+
+    .ring {
+      position: absolute;
+      top: 42%;
+      left: 50%;
+      width: 130vmax;
+      height: 62vmax;
+      margin: -31vmax 0 0 -65vmax;
+      border: 1.5px solid color-mix(in srgb, var(--fg) 16%, transparent);
+      border-radius: 50%;
+      animation: ring-expand linear both;
+      animation-timeline: scroll(root);
+      animation-range: calc(var(--s) * 1%) calc(var(--s) * 1% + 30%);
+    }
+
+    .ring--accent {
+      border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    }
+
+    .screen {
+      --tunnel-in: 0.62;
+      --tunnel-out: 1.5;
+      animation:
+        tunnel-in linear backwards,
+        tunnel-out linear forwards;
+      animation-timeline: view(), view();
+      animation-range:
+        entry 0% entry min(100%, 80svh),
+        /* Seções mais altas que a tela só começam a crescer na última tela de rolagem. */
+        exit max(15%, calc(100% - 85svh)) exit 100%;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  main > .screen {
+    --tunnel-in: 0.86;
+    --tunnel-out: 1.1;
+  }
+}
+
+@keyframes tunnel-in {
+  from {
+    scale: var(--tunnel-in, 0.62);
+    translate: 0 12svh;
+    opacity: 0.45;
+  }
+  to {
+    scale: 1;
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+
+@keyframes tunnel-out {
+  from {
+    scale: 1;
+    translate: 0 0;
+    opacity: 1;
+  }
+  55% {
+    opacity: 0.85;
+  }
+  to {
+    scale: var(--tunnel-out, 1.5);
+    translate: 0 -10svh;
+    opacity: 0;
+  }
+}
+
+@keyframes ring-expand {
+  0% {
+    scale: 0.03;
+    rotate: calc(var(--r, 0) * -1deg);
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.55;
+  }
+  100% {
+    scale: 1.2;
+    rotate: calc(var(--r, 0) * 1deg);
+    opacity: 0;
+  }
+}
+
+/* ---------- Painel de detalhes dos projetos ---------- */
+html {
+  /* Evita o salto de layout quando a rolagem da página é travada com o painel aberto. */
+  scrollbar-gutter: stable;
+}
+
+html:has(dialog[open]) {
+  overflow: hidden;
 }

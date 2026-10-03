@@ -1,0 +1,25 @@
+.group {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 var(--space-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+}
+
+.option {
+  min-width: 40px;
+  height: 100%;
+  padding: 0 var(--space-2);
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: 600 0.82rem/1 var(--font-ui);
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.option[aria-pressed="true"] {
+  color: var(--fg);
+  font-weight: 700;
+}

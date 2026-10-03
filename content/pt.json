@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "title": "Rafael Silva | Desenvolvedor Full Stack",
+    "description": "Portfólio de Rafael Silva, desenvolvedor web e full stack. Projetos, stack e experiência."
+  },
+  "a11y": {
+    "skip": "Pular para o conteúdo",
+    "toggleTheme": "Alternar tema",
+    "changeLanguage": "Mudar idioma",
+    "menu": "Menu",
+    "mainNav": "Navegação principal",
+    "photoAlt": "Foto de Rafael Silva",
+    "newTab": "abre em nova aba"
+  },
+  "nav": {
+    "about": "Sobre",
+    "projects": "Projetos",
+    "stack": "Stack",
+    "experience": "Experiência",
+    "contact": "Contato"
+  },
+  "hero": {
+    "title": "Rafael Silva",
+    "subtitle": "Desenvolvedor Full Stack",
+    "ctaProjects": "Ver projetos",
+    "ctaContact": "Contato",
+    "scroll": "Role",
+    "scrollHint": "Role para ver mais"
+  },
+  "about": {
+    "title": "Sobre mim",
+    "education": "Bacharelado em Sistemas de Informação",
+    "p1": "Desenvolvedor web e full stack com experiência em tecnologia em uma empresa multinacional, onde atuei com suporte técnico, infraestrutura e desenvolvimento.",
+    "p2": "Essa vivência me deu uma visão prática de como o software é usado no dia a dia das empresas e do que ele precisa entregar para gerar valor ao negócio. Estou sempre em busca de oportunidades para contribuir com soluções e continuar evoluindo."
+  },
+  "projects": {
+    "title": "Projetos",
+    "view": "Ver projeto →",
+    "github": "GitHub ↗",
+    "screenshotAlt": "Tela do projeto {name}",
+    "details": "Detalhes",
+    "close": "Fechar",
+    "about": "Sobre o projeto",
+    "features": "Principais funcionalidades",
+    "techLabel": "Tecnologias",
+    "gallery": "Galeria de imagens",
+    "prev": "Imagem anterior",
+    "next": "Próxima imagem",
+    "pick": "Ver imagem {n}",
+    "counter": "Imagem {n} de {total}",
+    "detailsOf": "Detalhes de {name}"
+  },
+  "stack": {
+    "title": "Stack",
+    "pause": "Pausar animação",
+    "play": "Retomar animação",
+    "expand": "Ver todas por área",
+    "collapse": "Ocultar lista",
+    "groups": {
+      "languages": "Linguagens",
+      "web": "Web",
+      "backend": "Back-end",
+      "data": "Dados",
+      "cloud": "Cloud e DevOps",
+      "tools": "Ferramentas"
+    }
+  },
+  "experience": {
+    "title": "Experiência",
+    "fullCv": "Currículo completo →",
+    "items": {
+      "sura": {
+        "role": "Estagiário de Infraestrutura",
+        "period": "07/2026 – atualmente",
+        "b1": "Automação e análise de dados na nuvem que otimizaram mais de 300 licenças do Office 365.",
+        "b2": "Certificate Manager que automatizou a renovação de certificados."
+      },
+      "birla": {
+        "role": "Estagiário de TI / Suporte Técnico",
+        "period": "07/2025 – 06/2026",
+        "b1": "Atualização de mais de 100 estações e servidores, com setup 80% mais rápido graças a imagens padronizadas.",
+        "b2": "Suporte de nível 1 para cerca de 200 colaboradores, dentro do SLA."
+      },
+      "apprentice": {
+        "role": "Assistente Administrativo (Aprendiz)",
+        "period": "04/2024 – 06/2025",
+        "b1": "Controle de fluxos no SAP, tradução técnica de documentos e relatórios gerenciais automatizados no Excel."
+      }
+    }
+  },
+  "contact": {
+    "title": "Vamos conversar?",
+    "text": "Estou aberto a oportunidades em desenvolvimento web e full stack. Se o meu trabalho faz sentido para o seu time ou projeto, será um prazer conversar.",
+    "email": "E-mail",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "selectToCopy": "Selecione e copie",
+    "open": "Abrir ↗",
+    "channels": "Canais de contato"
+  },
+  "footer": {
+    "copyright": "© {year} Rafael Silva",
+    "role": "Desenvolvedor Full Stack"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "text": "O endereço que você tentou abrir não existe ou mudou de lugar.",
+    "back": "Voltar ao início"
+  }
+}

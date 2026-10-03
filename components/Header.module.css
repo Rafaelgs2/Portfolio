@@ -1,0 +1,186 @@
+.header {
+  --progress: 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid transparent;
+  padding-top: env(safe-area-inset-top);
+}
+
+.scrolled {
+  border-bottom-color: var(--line);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  height: var(--head-h);
+}
+
+/* Logo (prancha "Selo, cabeçalho e favicon"): selo de 40px com cantos de 25% e,
+   no desktop, o nome em manuscrito ao lado. As cores vêm dos tokens, então o
+   selo acompanha o tema (coral com texto branco no claro, coral claro no escuro). */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.seal {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding-top: 2px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--font-script);
+  font-size: 23px;
+  line-height: 1;
+}
+
+.wordmark {
+  display: none;
+  font-family: var(--font-script);
+  font-size: 30px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+@media (min-width: 900px) {
+  .wordmark {
+    display: block;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nav {
+  position: relative;
+  display: none;
+}
+
+.list,
+.panelList {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.link:hover {
+  color: var(--fg);
+}
+
+.link[aria-current="location"] {
+  color: var(--fg);
+}
+
+/* Menu do celular */
+.menuButton {
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--fg);
+  font: 600 0.88rem/1 var(--font-ui);
+  cursor: pointer;
+}
+
+.panel {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.panelList {
+  flex-direction: column;
+}
+
+.panelList li + li {
+  border-top: 1px solid var(--line);
+}
+
+.panelList .link {
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  font-size: 1.15rem;
+  border-bottom: 0;
+}
+
+.panelList .link[aria-current="location"] {
+  color: var(--accent);
+}
+
+@media (min-width: 768px) {
+  .nav {
+    display: block;
+  }
+
+  .list {
+    gap: var(--space-5);
+  }
+
+  .menuButton,
+  .panel {
+    display: none;
+  }
+}
+
+/* Sublinhado coral que desliza entre os links do desktop. */
+.indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.3s ease,
+    width 0.3s ease,
+    opacity 0.2s ease;
+}
+
+/* Filete de progresso de rolagem no pé do cabeçalho: ligado direto à rolagem,
+   sem suavização extra. */
+.progress {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(var(--progress));
+  transform-origin: left;
+  pointer-events: none;
+}

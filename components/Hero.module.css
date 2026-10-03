@@ -1,0 +1,183 @@
+/* Hero: ocupa a primeira tela inteira (as demais seções só aparecem ao rolar).
+   O tamanho do nome acompanha a largura do próprio contêiner (cqi). Toda
+   animação usa `both`, então sem animação (movimento reduzido) o estado final
+   já é o visível. */
+.hero {
+  container-type: inline-size;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Respiro maior embaixo, onde fica a indicação de rolagem. */
+  padding-block: var(--space-7) var(--space-8);
+  text-align: center;
+}
+
+/* O bloco do nome define o tamanho de fonte; o traço usa `em` e o acompanha. */
+.nameWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: fit-content;
+  max-width: 100%;
+  font-size: clamp(3rem, 17cqi, 10rem);
+}
+
+.name {
+  margin: 0;
+  padding-inline: 0.1em;
+  font-family: var(--font-script);
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.15;
+  animation: write var(--dur-name) var(--ease-write) both;
+}
+
+/* Rabisco sob o "Silva": alinhado à direita, para não encostar na cauda do "f".
+   A largura é relativa ao nome e a altura segue a proporção do desenho. A
+   revelação da esquerda para a direita usa clip-path. */
+.stroke {
+  display: block;
+  align-self: flex-end;
+  width: 52%;
+  height: auto;
+  margin: 0.04em 4% 0 0;
+  overflow: visible;
+  fill: var(--accent);
+  animation: reveal 1s ease-out 1.4s both;
+}
+
+.subtitle {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: clamp(1.1rem, 3.4cqi, 1.65rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.55;
+  animation: rise var(--dur-rise) ease-out 1s both;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: 36px;
+  animation: rise var(--dur-rise) ease-out 1.3s both;
+}
+
+/* Indicação de rolagem: rótulo pequeno e um fio com um ponto coral que desce. */
+.cue {
+  position: absolute;
+  bottom: var(--space-5);
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 44px;
+  padding: var(--space-2);
+  color: var(--muted);
+  text-decoration: none;
+  transform: translateX(-50%);
+  animation: fade 0.8s ease-out 2s both;
+}
+
+.cue:hover {
+  color: var(--fg);
+}
+
+.cueLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  line-height: 1;
+  text-indent: 0.24em; /* compensa o espaçamento da última letra para centralizar */
+  text-transform: uppercase;
+}
+
+.cueTrack {
+  position: relative;
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, transparent, var(--line) 25%, var(--line));
+}
+
+.cueDot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: travel 2.4s cubic-bezier(0.65, 0, 0.35, 1) 2.4s infinite both;
+}
+
+/* Revelação da esquerda para a direita, como se o nome fosse escrito.
+   As margens negativas do inset evitam cortar o manuscrito nas pontas. */
+@keyframes write {
+  from {
+    /* Começa com 2px "abertos" (sem letra nenhuma neles) em vez de 100% recortado,
+       para o nome contar como pintado desde o primeiro quadro. */
+    clip-path: inset(-20% calc(100% - 2px) -25% -5%);
+  }
+  to {
+    clip-path: inset(-20% -5% -25% -5%);
+  }
+}
+
+@keyframes reveal {
+  from {
+    clip-path: inset(-50% 100% -50% 0);
+  }
+  to {
+    clip-path: inset(-50% -2% -50% -2%);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes travel {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(39px);
+  }
+}
+
+/* Movimento reduzido: o ponto fica parado no fio, sem animação. */
+@media (prefers-reduced-motion: reduce) {
+  .cueDot {
+    top: 50%;
+  }
+}

@@ -1,0 +1,83 @@
+/* Polaroid. Todas as medidas partem da largura (--w), para a moldura manter a
+   proporção em qualquer tamanho: bordas de 5,5% e faixa de 23% embaixo. */
+.photo {
+  --w: min(var(--photo-w, 250px), 70vw);
+  position: relative;
+  display: block;
+  width: var(--w);
+  padding: calc(var(--w) * 0.055) calc(var(--w) * 0.055) calc(var(--w) * 0.23);
+  border: 0;
+  border-radius: 4px;
+  background: var(--paper);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transform: rotate(-3deg);
+  transition:
+    transform var(--dur-photo) ease,
+    box-shadow var(--dur-photo) ease;
+}
+
+.photo:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+}
+
+.print {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1.08;
+  overflow: hidden;
+  background: var(--art-a);
+}
+
+.image {
+  object-fit: cover;
+  object-position: 50% 35%; /* mantém o rosto bem enquadrado ao cortar */
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(160deg, var(--art-a), var(--art-b));
+  color: var(--fg);
+  font-family: var(--font-script);
+  font-size: 4rem;
+}
+
+.caption {
+  position: absolute;
+  right: 0;
+  bottom: calc(var(--w) * 0.045);
+  left: 0;
+  color: var(--ink);
+  font-family: var(--font-script);
+  font-size: calc(var(--w) * 0.12);
+  line-height: 1;
+  text-align: center;
+}
+
+.photo[data-active="true"],
+.photo:focus-visible {
+  transform: rotate(0) translateY(-6px);
+  box-shadow: 0 24px 44px rgba(0, 0, 0, 0.36);
+}
+
+/* Hover só em ponteiro fino, para o toque não deixar o estado "preso". */
+@media (hover: hover) {
+  .photo:hover {
+    transform: rotate(0) translateY(-6px);
+    box-shadow: 0 24px 44px rgba(0, 0, 0, 0.36);
+  }
+}
+
+/* Movimento reduzido: sem inclinação nem deslocamento. */
+@media (prefers-reduced-motion: reduce) {
+  .photo,
+  .photo[data-active="true"],
+  .photo:focus-visible,
+  .photo:hover {
+    transform: none;
+  }
+}

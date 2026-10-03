@@ -1,0 +1,107 @@
+.about {
+  position: relative;
+  isolation: isolate;
+  --photo-w: clamp(250px, 32vw, 360px);
+  display: grid;
+  gap: clamp(24px, 5vw, 72px);
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  padding-block: var(--space-7);
+}
+
+.text {
+  min-width: 0;
+  max-width: 56ch;
+  font-size: clamp(1.02rem, 1.4vw, 1.2rem);
+}
+
+.text p {
+  margin: 0 0 var(--space-4);
+  line-height: 1.6;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-script);
+  font-size: clamp(2.6rem, 6.5vw, 4.2rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.text .education {
+  margin: var(--space-2) 0 var(--space-5);
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+@media (min-width: 640px) {
+  .about {
+    grid-template-columns: var(--photo-w) 1fr;
+    justify-items: start;
+  }
+}
+
+/* Fundo: grade de pontos que some nas bordas, concentrada atrás da foto. Fica
+   dentro da seção, sem passar por cima do texto nem ser cortada de forma seca,
+   porque a máscara radial a desfaz antes das bordas. */
+.about::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--fg) 32%, transparent) 1.5px,
+    transparent 1.6px
+  );
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 52% 80% at 50% 22%, #000, transparent 75%);
+}
+
+@media (min-width: 640px) {
+  .about::before {
+    mask-image: radial-gradient(ellipse 46% 78% at 24% 50%, #000, transparent 75%);
+  }
+}
+
+/* Parallax: a grade e a foto andam em velocidades diferentes da rolagem. Só com
+   suporte a animation-timeline e sem movimento reduzido. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .about::before {
+      --amp: 40px;
+      animation: drift linear both;
+      animation-timeline: view();
+    }
+
+    .photoWrap {
+      --amp: 36px;
+      animation: drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .about::before {
+    --amp: 90px;
+  }
+
+  .photoWrap {
+    --amp: 80px;
+  }
+}
+
+@keyframes drift {
+  from {
+    translate: 0 var(--amp);
+  }
+  to {
+    translate: 0 calc(var(--amp) * -1);
+  }
+}

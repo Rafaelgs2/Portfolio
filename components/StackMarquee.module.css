@@ -1,0 +1,273 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Bordas suavizadas: os 8% laterais somem, para os selos não aparecerem cortados. */
+.row {
+  overflow: hidden;
+  padding-block: var(--space-2) 6px;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* A lista aparece duas vezes; mover -50% fecha o laço sem emenda. */
+.track {
+  display: flex;
+  width: max-content;
+  animation: scroll 48s linear infinite;
+}
+
+.row:nth-child(2) .track {
+  animation-duration: 56s;
+}
+
+.reverse .track {
+  animation-direction: reverse;
+}
+
+.list {
+  display: flex;
+  gap: 18px;
+  margin: 0;
+  padding: 0 18px 0 0;
+  list-style: none;
+}
+
+.root:hover .track,
+.root[data-paused="true"] .track {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Selo de ferramenta */
+.chip {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px 10px 10px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-chip);
+  white-space: nowrap;
+  transition:
+    transform var(--dur-chip) ease,
+    border-color var(--dur-chip) ease,
+    box-shadow var(--dur-chip) ease;
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--muted);
+  transition:
+    background var(--dur-chip) ease,
+    border-color var(--dur-chip) ease,
+    color var(--dur-chip) ease;
+}
+
+.logo svg {
+  width: 24px;
+  height: 24px;
+}
+
+.abbr {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.chip:hover {
+  transform: translateY(-3px);
+  border-color: var(--brand);
+  box-shadow: var(--shadow-chip);
+}
+
+.chip:hover .logo {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--ink);
+}
+
+/* Marcas escuras somem no fundo escuro: no hover usam o texto principal. */
+:global(:root[data-theme="dark"]) .chip[data-dark-brand]:hover {
+  border-color: var(--fg);
+}
+:global(:root[data-theme="dark"]) .chip[data-dark-brand]:hover .logo {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme="light"])) .chip[data-dark-brand]:hover {
+    border-color: var(--fg);
+  }
+  :global(:root:not([data-theme="light"])) .chip[data-dark-brand]:hover .logo {
+    background: var(--fg);
+    border-color: var(--fg);
+    color: var(--bg);
+  }
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+.expand,
+.pause {
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  border: 0;
+  background: none;
+  font: 600 0.9rem/1 var(--font-ui);
+  cursor: pointer;
+  text-underline-offset: 4px;
+}
+
+.expand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+  border: 1.5px solid var(--muted);
+  border-radius: var(--radius-pill);
+  color: var(--fg);
+  transition: border-color 0.15s ease;
+}
+
+.expand:hover {
+  border-color: var(--fg);
+}
+
+.chevron {
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform var(--dur-chip) ease;
+}
+
+.expand[aria-expanded="true"] .chevron {
+  transform: translateY(2px) rotate(-135deg);
+}
+
+.pause {
+  color: var(--muted);
+}
+
+/* Painel por área: abre sem medir altura, animando a linha do grid de 0fr a 1fr. */
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 0.45s var(--ease-write),
+    visibility 0s 0.45s;
+}
+
+.panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition:
+    grid-template-rows 0.45s var(--ease-write),
+    visibility 0s;
+}
+
+.groups {
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.group {
+  display: grid;
+  gap: var(--space-1) var(--space-5);
+  padding-block: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.group:first-child {
+  margin-top: var(--space-2);
+}
+
+.group dt {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.group dd {
+  margin: 0;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+@media (min-width: 640px) {
+  .group {
+    grid-template-columns: 170px 1fr;
+    align-items: baseline;
+  }
+}
+
+.pause:hover {
+  color: var(--fg);
+  text-decoration: underline;
+}
+
+/* Movimento reduzido: as faixas param e os selos quebram em linhas, sem a cópia. */
+@media (prefers-reduced-motion: reduce) {
+  .row {
+    mask-image: none;
+  }
+
+  .track {
+    width: auto;
+    animation: none;
+  }
+
+  .list {
+    flex-wrap: wrap;
+    padding: 0;
+  }
+
+  .copy,
+  .pause {
+    display: none;
+  }
+
+  .controls {
+    justify-content: flex-start;
+  }
+
+  .chip:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
