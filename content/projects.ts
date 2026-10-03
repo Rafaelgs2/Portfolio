@@ -226,10 +226,9 @@ export const projects: Project[] = [
     },
     tech: ["Next.js", "TypeScript", "CSS", "next-intl"],
     image: "/projects/portfolio.png",
-    // Ainda não publicado nem enviado ao GitHub. Depois do deploy na Vercel, troque
-    // `live` pelo endereço do site e `github` pelo link do repositório.
-    live: null,
-    github: null,
+    // Se um dia houver domínio próprio, troque `live` pelo endereço novo.
+    live: "https://portfolio-fawn-two-44.vercel.app",
+    github: "https://github.com/Rafaelgs2/Portfolio",
     details: {
       overview: {
         pt: "Um portfólio bilíngue (português e inglês) pensado como um produto, com design system documentado, movimento guiado pela rolagem e atenção à acessibilidade.",

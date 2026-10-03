@@ -56,7 +56,7 @@ Ao trocar uma imagem, dê um **nome novo** ao arquivo: o cache de imagens usa o 
 2. Na Vercel, **Add New > Project**, importe o repositório e mantenha as configurações detectadas (Next.js).
 3. **Deploy.** Não é preciso configurar nada: o site descobre sozinho o domínio de produção da Vercel para o `canonical`, o `sitemap` e as imagens de compartilhamento.
 4. Com domínio próprio, adicione a variável `NEXT_PUBLIC_SITE_URL` (por exemplo `https://seudominio.com`) e faça um novo deploy.
-5. Depois do deploy, preencha em `content/projects.ts` os campos `live` e `github` do projeto "Portfolio".
+5. O projeto "Portfolio" em `content/projects.ts` já aponta para o endereço publicado e para este repositório. Se mudar o domínio, atualize o campo `live`.
 
 Variáveis de ambiente: veja `.env.example`.
 
