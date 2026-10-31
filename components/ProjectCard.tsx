@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import GifImage, { isGif } from "./GifImage";
 import ProjectModal, { type ProjectDetails } from "./ProjectModal";
 import styles from "./ProjectCard.module.css";
 
@@ -16,12 +17,15 @@ type Labels = {
   gallery: string;
   prev: string;
   next: string;
+  pause: string;
+  play: string;
   // Modelos com {n} e {total}, preenchidos aqui no cliente.
   pick: string;
   counter: string;
 };
 
 type Props = {
+  id: string;
   index: number;
   type: string;
   title: string;
@@ -29,6 +33,10 @@ type Props = {
   tech: string[];
   image: string | null;
   imageAlt: string;
+  simulationNote?: string;
+  status?: string;
+  related?: { id: string; label: string };
+  extraLinks?: { label: string; href: string }[];
   live: string | null;
   github: string | null;
   viewLabel: string;
@@ -40,8 +48,10 @@ type Props = {
 
 const MAX_TILT_Y = 5; // graus no eixo vertical
 const MAX_TILT_X = 4; // graus no eixo horizontal
+const MAX_TECH_ON_CARD = 4; // o painel de detalhes mostra a lista inteira
 
 export default function ProjectCard({
+  id,
   index,
   type,
   title,
@@ -49,6 +59,10 @@ export default function ProjectCard({
   tech,
   image,
   imageAlt,
+  simulationNote,
+  status,
+  related,
+  extraLinks = [],
   live,
   github,
   viewLabel,
@@ -61,6 +75,9 @@ export default function ProjectCard({
   const moreRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [origin, setOrigin] = useState({ x: 0, y: 0 });
+  const [paused, setPaused] = useState(false);
+  const gif = image !== null && isGif(image);
+  const cardLink = extraLinks[0];
 
   // Atualiza variáveis CSS direto no elemento, sem re-renderizar a cada movimento.
   function follow(e: React.PointerEvent<HTMLElement>) {
@@ -92,6 +109,7 @@ export default function ProjectCard({
 
   return (
     <div
+      id={`project-${id}`}
       className={styles.scene}
       data-reveal
       style={{ "--i": index } as React.CSSProperties}
@@ -128,7 +146,14 @@ export default function ProjectCard({
 
         <div className={styles.mat}>
           <div className={styles.print}>
-            {image ? (
+            {gif ? (
+              <GifImage
+                src={image}
+                alt={imageAlt}
+                paused={paused}
+                className={styles.gif}
+              />
+            ) : image ? (
               <Image
                 src={image}
                 alt={imageAlt}
@@ -140,13 +165,44 @@ export default function ProjectCard({
               <span className={styles.placeholder} aria-hidden="true" />
             )}
           </div>
+          {(simulationNote || gif) && (
+            <div className={styles.note}>
+              {simulationNote && <p>{simulationNote}</p>}
+              {/* WCAG 2.2.2: movimento contínuo por mais de 5s precisa de pausa. */}
+              {gif && (
+                <button
+                  type="button"
+                  className={styles.pause}
+                  aria-pressed={paused}
+                  onClick={() => setPaused((v) => !v)}
+                >
+                  {paused ? labels.play : labels.pause}
+                </button>
+              )}
+            </div>
+          )}
         </div>
 
         <h3 className={styles.title}>{title}</h3>
-        <p className={styles.summary}>{summary}</p>
-        <p className={styles.tech}>{tech.join(" · ")}</p>
 
-        {(live || github) && (
+        {(status || related) && (
+          <div className={styles.tags}>
+            {status && <span className={styles.tag}>{status}</span>}
+            {related && (
+              <a
+                href={`#project-${related.id}`}
+                className={`${styles.tag} ${styles.tagLink}`}
+              >
+                {related.label}
+              </a>
+            )}
+          </div>
+        )}
+
+        <p className={styles.summary}>{summary}</p>
+        <p className={styles.tech}>{tech.slice(0, MAX_TECH_ON_CARD).join(" · ")}</p>
+
+        {(live || cardLink || github) && (
           <div className={styles.links}>
             {live && (
               <a
@@ -156,6 +212,17 @@ export default function ProjectCard({
                 rel="noopener noreferrer"
               >
                 {viewLabel}
+                <span className="sr-only"> ({newTabLabel})</span>
+              </a>
+            )}
+            {cardLink && (
+              <a
+                href={cardLink.href}
+                className={styles.primary}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {cardLink.label}
                 <span className="sr-only"> ({newTabLabel})</span>
               </a>
             )}
@@ -183,10 +250,14 @@ export default function ProjectCard({
           <ProjectModal
             type={type}
             title={title}
+            status={status}
             details={details}
             tech={tech}
             live={live}
             github={github}
+            extraLinks={extraLinks}
+            paused={paused}
+            onTogglePaused={() => setPaused((v) => !v)}
             origin={origin}
             labels={{
               close: labels.close,
@@ -196,6 +267,8 @@ export default function ProjectCard({
               gallery: labels.gallery,
               prev: labels.prev,
               next: labels.next,
+              pause: labels.pause,
+              play: labels.play,
               view: viewLabel,
               github: githubLabel,
               newTab: newTabLabel,

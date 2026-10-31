@@ -161,10 +161,39 @@
   animation: shot-in 0.45s var(--ease-write) both;
 }
 
+/* GIF: quadro inteiro, sem corte. O fundo repete o do GIF nas faixas do 16:10. */
+.gif {
+  object-fit: contain;
+  background: #141818;
+}
+
 @keyframes shot-in {
   from {
     opacity: 0;
     transform: scale(1.04);
+  }
+}
+
+.pause {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: 600 0.82rem/1 var(--font-ui);
+  cursor: pointer;
+  text-underline-offset: 4px;
+}
+
+.pause:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* Com movimento reduzido o GIF já vira um quadro parado. */
+@media (prefers-reduced-motion: reduce) {
+  .pause {
+    display: none;
   }
 }
 
@@ -188,6 +217,12 @@
 
 .nav:hover {
   border-color: var(--accent);
+}
+
+/* No GIF o quadro aparece inteiro: as setas descem para não cobrir o início e o
+   fim do diagrama, que ficam no meio da altura. */
+.mat[data-gif="true"] .nav {
+  top: 84%;
 }
 
 .prev {

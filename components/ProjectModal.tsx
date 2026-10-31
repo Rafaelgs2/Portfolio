@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import GifImage, { isGif, stillOf } from "./GifImage";
 import styles from "./ProjectModal.module.css";
 
 export type ProjectDetails = {
@@ -18,6 +19,8 @@ export type ModalLabels = {
   gallery: string;
   prev: string;
   next: string;
+  pause: string;
+  play: string;
   view: string; // "Ver projeto →"
   github: string; // "GitHub ↗"
   newTab: string;
@@ -28,10 +31,15 @@ export type ModalLabels = {
 type Props = {
   type: string;
   title: string;
+  status?: string;
   details: ProjectDetails;
   tech: string[];
   live: string | null;
   github: string | null;
+  extraLinks: { label: string; href: string }[];
+  // A pausa dos GIFs vale para a carta e para o painel.
+  paused: boolean;
+  onTogglePaused: () => void;
   labels: ModalLabels;
   // Centro do card que foi clicado, para o painel "crescer" a partir dele.
   origin: { x: number; y: number };
@@ -43,10 +51,14 @@ const CLOSE_MS = 220;
 export default function ProjectModal({
   type,
   title,
+  status,
   details,
   tech,
   live,
   github,
+  extraLinks,
+  paused,
+  onTogglePaused,
   labels,
   origin,
   onClose,
@@ -57,6 +69,7 @@ export default function ProjectModal({
   const [index, setIndex] = useState(0);
   const images = details.gallery;
   const current = images[index];
+  const [firstLink, ...otherLinks] = extraLinks;
 
   // Abre como diálogo modal nativo: o navegador prende o foco dentro dele, deixa
   // o resto da página inerte e fecha com Esc. O painel cresce a partir do card.
@@ -112,7 +125,10 @@ export default function ProjectModal({
     >
       <header className={styles.head}>
         <div>
-          <p className={styles.type}>{type}</p>
+          <p className={styles.type}>
+            {type}
+            {status && ` · ${status}`}
+          </p>
           <h3 id="project-modal-title" className={styles.title}>
             {title}
           </h3>
@@ -139,17 +155,28 @@ export default function ProjectModal({
               aria-label={labels.gallery}
               onKeyDown={onGalleryKey}
             >
-              <div className={styles.mat}>
+              <div className={styles.mat} data-gif={isGif(current.src)}>
                 <div className={styles.frame}>
-                  <Image
-                    key={current.src}
-                    src={current.src}
-                    alt={current.caption}
-                    fill
-                    sizes="(min-width: 900px) 640px, 92vw"
-                    className={styles.shot}
-                    priority
-                  />
+                  {isGif(current.src) ? (
+                    <GifImage
+                      key={current.src}
+                      src={current.src}
+                      alt={current.caption}
+                      paused={paused}
+                      className={`${styles.shot} ${styles.gif}`}
+                      priority
+                    />
+                  ) : (
+                    <Image
+                      key={current.src}
+                      src={current.src}
+                      alt={current.caption}
+                      fill
+                      sizes="(min-width: 900px) 640px, 92vw"
+                      className={styles.shot}
+                      priority
+                    />
+                  )}
                 </div>
                 {images.length > 1 && (
                   <>
@@ -186,6 +213,18 @@ export default function ProjectModal({
                 )}
               </p>
 
+              {/* WCAG 2.2.2: movimento contínuo por mais de 5s precisa de pausa. */}
+              {isGif(current.src) && (
+                <button
+                  type="button"
+                  className={styles.pause}
+                  aria-pressed={paused}
+                  onClick={onTogglePaused}
+                >
+                  {paused ? labels.play : labels.pause}
+                </button>
+              )}
+
               {images.length > 1 && (
                 <ul className={styles.thumbs}>
                   {images.map((img, i) => (
@@ -198,7 +237,7 @@ export default function ProjectModal({
                         onClick={() => setIndex(i)}
                       >
                         <Image
-                          src={img.src}
+                          src={isGif(img.src) ? stillOf(img.src) : img.src}
                           alt=""
                           fill
                           sizes="120px"
@@ -230,7 +269,7 @@ export default function ProjectModal({
               ))}
             </ul>
 
-            {(live || github) && (
+            {(live || firstLink || github) && (
               <div className={styles.links}>
                 {live && (
                   <a
@@ -240,6 +279,17 @@ export default function ProjectModal({
                     rel="noopener noreferrer"
                   >
                     {labels.view}
+                    <span className="sr-only"> ({labels.newTab})</span>
+                  </a>
+                )}
+                {firstLink && (
+                  <a
+                    href={firstLink.href}
+                    className="btn btn--primary"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {firstLink.label}
                     <span className="sr-only"> ({labels.newTab})</span>
                   </a>
                 )}
@@ -254,6 +304,18 @@ export default function ProjectModal({
                     <span className="sr-only"> ({labels.newTab})</span>
                   </a>
                 )}
+                {otherLinks.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="btn btn--secondary"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.label}
+                    <span className="sr-only"> ({labels.newTab})</span>
+                  </a>
+                ))}
               </div>
             )}
           </div>

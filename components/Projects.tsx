@@ -21,13 +21,27 @@ export default function Projects() {
         {projects.map((p, i) => (
           <ProjectCard
             key={p.id}
+            id={p.id}
             index={i}
             type={p.type[locale]}
             title={p.title}
             summary={p.summary[locale]}
             tech={p.tech}
             image={p.image}
-            imageAlt={t("projects.screenshotAlt", { name: p.title })}
+            imageAlt={
+              p.simulationNote
+                ? p.details.gallery[0].caption[locale]
+                : t("projects.screenshotAlt", { name: p.title })
+            }
+            simulationNote={p.simulationNote?.[locale]}
+            status={p.status?.[locale]}
+            related={
+              p.related && { id: p.related.id, label: p.related.label[locale] }
+            }
+            extraLinks={p.extraLinks?.map((l) => ({
+              label: l.label[locale],
+              href: l.href,
+            }))}
             live={p.live}
             github={p.github}
             viewLabel={t("projects.view")}
@@ -51,6 +65,8 @@ export default function Projects() {
               gallery: t("projects.gallery"),
               prev: t("projects.prev"),
               next: t("projects.next"),
+              pause: t("stack.pause"),
+              play: t("stack.play"),
               // Modelos crus (com {n} e {total}) para o cliente preencher.
               pick: t.raw("projects.pick") as string,
               counter: t.raw("projects.counter") as string,

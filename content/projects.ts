@@ -4,13 +4,23 @@
 // - `type`: uma ou duas palavras (Full Stack, Web, Back-end).
 // - `title`: nome do projeto, até 28 caracteres (não é traduzido).
 // - `summary`: o problema que resolve, até ~110 caracteres, em cada idioma.
-// - `tech`: de 2 a 4 nomes, os mais relevantes para a vaga.
+// - `tech`: os mais relevantes para a vaga primeiro. A carta mostra só os 4 primeiros
+//   e o painel de detalhes mostra todos.
 // - `image`: print da tela principal (1280x800 ou maior, sem moldura de navegador)
 //   em `public/projects/`, ex.: "/projects/meu-projeto.png". `null` usa o espaço reservado.
+//   Um GIF precisa de um PNG com o mesmo nome ao lado, usado como quadro parado.
 // - `live`: endereço da versão no ar, ou `null` (o link "Ver projeto" some).
 // - `github`: link do repositório, ou `null` se for privado (o link "GitHub" some da carta).
 // - `details`: descrição completa, de 5 a 7 funcionalidades curtas e de 3 a 5 prints (1280x800).
 // - Ordem: o projeto mais próximo de full stack vem primeiro.
+//
+// Campos opcionais, que a maioria dos projetos não usa:
+// - `status`: etiqueta de situação, ex.: "Estudo de caso".
+// - `related`: etiqueta com link para a carta de outro projeto (`id` dele).
+// - `extraLinks`: links além de `live` e `github`. A carta mostra só o primeiro e o
+//   painel de detalhes mostra todos.
+// - `simulationNote`: a imagem da carta não é um print real. O texto aparece sob ela,
+//   e o texto alternativo passa a ser a legenda da primeira imagem da galeria.
 
 type Bilingual = { pt: string; en: string };
 
@@ -32,6 +42,10 @@ export type Project = {
   live: string | null;
   github: string | null;
   details: ProjectDetails;
+  status?: Bilingual;
+  related?: { id: string; label: Bilingual };
+  extraLinks?: { label: Bilingual; href: string }[];
+  simulationNote?: Bilingual;
 };
 
 export const projects: Project[] = [
@@ -46,9 +60,11 @@ export const projects: Project[] = [
     tech: ["Next.js", "React", "TypeScript", "Supabase"],
     image: "/projects/cifro.png",
     live: "https://cifro-nine.vercel.app",
-    // Repositório privado (Rafaelgs2/CIRFRO-APP). Para exibir o link, torne-o
-    // público no GitHub e troque `null` por "https://github.com/Rafaelgs2/CIRFRO-APP".
-    github: null,
+    github: "https://github.com/Rafaelgs2/CIFRO-APP",
+    related: {
+      id: "cifro-telegram",
+      label: { pt: "Automação no Telegram →", en: "Telegram automation →" },
+    },
     details: {
       overview: {
         pt: "O CIFRO reúne contas, cartões, faturas e patrimônio em um único painel, para entender o mês sem montar planilhas. Cada usuário tem os seus dados isolados, e a lógica financeira é coberta por testes.",
@@ -98,6 +114,96 @@ export const projects: Project[] = [
         {
           src: "/projects/cifro/mes.png",
           caption: { pt: "Resumo mensal com navegação entre períodos", en: "Monthly summary with navigation between periods" },
+        },
+      ],
+    },
+  },
+  {
+    id: "cifro-telegram",
+    type: { pt: "Automação", en: "Automation" },
+    title: "CIFRO Telegram Automation",
+    status: { pt: "Estudo de caso", en: "Case study" },
+    related: {
+      id: "cifro",
+      label: { pt: "Parte do CIFRO →", en: "Part of CIFRO →" },
+    },
+    summary: {
+      pt: "Automação que registra despesas do CIFRO a partir de uma mensagem no Telegram. Cada chat é ligado a um usuário por um link de uso único, e o bot não usa chave de serviço.",
+      en: "A Telegram → n8n → Supabase automation that records CIFRO expenses from chat messages. Each chat is linked to a user with a one-time link, and the bot uses no service-role key.",
+    },
+    tech: [
+      "n8n",
+      "Telegram Bot API",
+      "Supabase",
+      "PostgreSQL (PL/pgSQL)",
+      "Row Level Security",
+      "Webhooks",
+      "SQL tests",
+      "Docker",
+    ],
+    image: "/projects/cifro-telegram/workflow.gif",
+    simulationNote: {
+      pt: "Simulação: diagrama do workflow, não é captura do n8n.",
+      en: "Simulation: workflow diagram, not an n8n capture.",
+    },
+    // Não existe versão no ar: o bot roda localmente e não é aberto ao público.
+    live: null,
+    github: "https://github.com/Rafaelgs2/N8n_Bot_Automation_Cifro_App",
+    extraLinks: [
+      {
+        // O estudo de caso está em português.
+        label: { pt: "Ler estudo de caso ↗", en: "Read case study (PT) ↗" },
+        href: "https://github.com/Rafaelgs2/N8n_Bot_Automation_Cifro_App/blob/main/docs/estudo-de-caso.md",
+      },
+      {
+        label: { pt: "App CIFRO ↗", en: "CIFRO app ↗" },
+        href: "https://cifro-nine.vercel.app",
+      },
+      {
+        label: { pt: "Código do CIFRO ↗", en: "CIFRO code ↗" },
+        href: "https://github.com/Rafaelgs2/CIFRO-APP",
+      },
+    ],
+    details: {
+      overview: {
+        pt: "O CIFRO é um app de finanças pessoais. Esta automação permite registrar um gasto com uma mensagem como 'almoço 32,50': o n8n recebe o webhook do Telegram e chama funções do Postgres, e é o banco que decide de quem é cada mensagem. O desafio central foi provar de quem é o chat sem confiar no que o usuário digita, e fazer isso sem uma chave de serviço. O repositório documenta as decisões, o modelo de ameaças, os erros cometidos no caminho e as limitações. É um projeto de estudo e validação: o bot roda no meu computador e não está aberto ao público.",
+        en: "CIFRO is a personal finance app. This automation lets you record an expense with a message like 'almoço 32,50' (lunch, 32.50): n8n receives the Telegram webhook and calls Postgres functions, and the database decides who each message belongs to. The core challenge was proving who owns the chat without trusting what the user types, and doing so without a service-role key. The repository documents the decisions, the threat model, the mistakes made along the way and the limitations. This is a study and validation project: the bot runs on my computer and is not open to the public.",
+      },
+      features: {
+        pt: [
+          "O Telegram de cada pessoa é ligado à conta dela por um link de uso único; o banco decide de quem é cada mensagem.",
+          "Sem chave de serviço: o bot se autentica por um segredo em cabeçalho, guardado como hash, e a função só insere uma despesa.",
+          "Idempotente: reenviar a mesma mensagem não duplica a despesa.",
+          "Suíte de 101 cenários SQL, com isolamento entre usuários, casos de abuso e um teste de controle.",
+        ],
+        en: [
+          "Each person's Telegram is linked to their account with a one-time link; the database decides who each message belongs to.",
+          "No service-role key: the bot authenticates with a header secret, stored as a hash, and the function only inserts an expense.",
+          "Idempotent: resending the same message does not duplicate the expense.",
+          "A suite of 101 SQL scenarios, covering isolation between users, abuse cases and a control test.",
+        ],
+      },
+      gallery: [
+        {
+          src: "/projects/cifro-telegram/workflow.gif",
+          caption: {
+            pt: "Simulação: diagrama do caminho de uma mensagem pelos nós do workflow, não é captura do n8n",
+            en: "Simulation: diagram of a message's path through the workflow nodes, not an n8n capture",
+          },
+        },
+        {
+          src: "/projects/cifro-telegram/conectar.gif",
+          caption: {
+            pt: "Simulação com dados fictícios: conectar o Telegram pelo Perfil do CIFRO e receber a confirmação do bot",
+            en: "Simulation with fictional data: connecting Telegram from the CIFRO profile and getting the bot's confirmation",
+          },
+        },
+        {
+          src: "/projects/cifro-telegram/registrar.gif",
+          caption: {
+            pt: "Simulação com dados fictícios: duas despesas enviadas ao bot entrando em Lançamentos",
+            en: "Simulation with fictional data: two expenses sent to the bot appearing in the transaction list",
+          },
         },
       ],
     },
