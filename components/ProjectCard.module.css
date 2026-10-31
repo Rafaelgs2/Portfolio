@@ -294,8 +294,10 @@
   transition: clip-path var(--dur-reveal) var(--ease-write) 0.15s;
 }
 
+/* Esconder é imediato (`transition: none`); só a revelação anima. */
 :global(html[data-motion="on"]) .scene:not([data-revealed]) .print {
   clip-path: inset(100% 0 0 0);
+  transition: none;
 }
 
 .img,
@@ -306,6 +308,7 @@
 :global(html[data-motion="on"]) .scene:not([data-revealed]) .img,
 :global(html[data-motion="on"]) .scene:not([data-revealed]) .placeholder {
   transform: scale(1.08);
+  transition: none;
 }
 
 /* Parallax interno: a imagem se desloca dentro da moldura (até 48px no total). */

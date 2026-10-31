@@ -51,9 +51,24 @@ export default function ScrollEffects() {
     }
     root.dataset.motion = "on";
 
+    // Animações sem fim (`data-pause-offscreen`) só rodam perto da tela: mesmo
+    // invisíveis, elas recalculam estilo a cada quadro.
+    const pauseIo = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          (entry.target as HTMLElement).dataset.offscreen = String(!entry.isIntersecting);
+        }
+      },
+      { rootMargin: "100px" },
+    );
+    for (const el of document.querySelectorAll("[data-pause-offscreen]")) {
+      pauseIo.observe(el);
+    }
+
     return () => {
       contentIo.disconnect();
       titleIo.disconnect();
+      pauseIo.disconnect();
       delete root.dataset.motion;
     };
   }, []);

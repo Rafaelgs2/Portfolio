@@ -110,6 +110,7 @@ export default async function LocaleLayout({
           <a href="#main" className="skip">
             {t("skip")}
           </a>
+          <span id="page-top" className="page-top" aria-hidden="true" />
           <Tunnel />
           <Header />
           {children}

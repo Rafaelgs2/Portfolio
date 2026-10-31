@@ -35,7 +35,8 @@
 }
 
 .root:hover .track,
-.root[data-paused="true"] .track {
+.root[data-paused="true"] .track,
+.root[data-offscreen="true"] .track {
   animation-play-state: paused;
 }
 

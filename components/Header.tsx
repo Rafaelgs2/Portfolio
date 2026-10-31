@@ -20,23 +20,45 @@ export default function Header() {
   const indicatorRef = useRef<HTMLSpanElement>(null);
   const linkRefs = useRef<Partial<Record<SectionId, HTMLAnchorElement | null>>>({});
 
-  // Filete inferior aparece depois que a página rola, e o filete coral de
-  // progresso cresce de 0 a 100% ligado direto à rolagem.
+  // Filete inferior aparece depois que a página rola: o marcador no topo da página
+  // saiu da tela. Sem ouvir a rolagem, que aqui custaria trabalho a cada quadro.
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 4);
+    const top = document.getElementById("page-top");
+    if (!top) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setScrolled(!entry.isIntersecting);
+    });
+    observer.observe(top);
+    return () => observer.disconnect();
+  }, []);
+
+  // O filete coral de progresso cresce de 0 a 100% ligado direto à rolagem. Quem
+  // suporta usa só CSS (animation-timeline, ver Header.module.css); o JavaScript
+  // é a alternativa, limitada a uma atualização por quadro.
+  useEffect(() => {
+    if (
+      CSS.supports("animation-timeline: scroll()") &&
+      !matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+    let frame = 0;
+    const update = () => {
+      frame = 0;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
       headerRef.current?.style.setProperty("--progress", String(progress));
     };
-    // A primeira leitura espera o quadro seguinte, para não forçar layout na montagem.
-    const first = requestAnimationFrame(onScroll);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    const schedule = () => {
+      frame ||= requestAnimationFrame(update);
+    };
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
     return () => {
-      cancelAnimationFrame(first);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
     };
   }, []);
 

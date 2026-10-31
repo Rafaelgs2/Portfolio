@@ -175,6 +175,20 @@
   }
 }
 
+/* Depois de trocar de idioma o hero já aparece pronto, sem repetir a abertura. */
+:global(html[data-intro="skip"]) .name,
+:global(html[data-intro="skip"]) .stroke,
+:global(html[data-intro="skip"]) .subtitle,
+:global(html[data-intro="skip"]) .actions,
+:global(html[data-intro="skip"]) .cue {
+  animation: none;
+}
+
+/* Fora da tela o ponto para de andar (ver ScrollEffects). */
+.cue[data-offscreen="true"] .cueDot {
+  animation-play-state: paused;
+}
+
 /* Movimento reduzido: o ponto fica parado no fio, sem animação. */
 @media (prefers-reduced-motion: reduce) {
   .cueDot {

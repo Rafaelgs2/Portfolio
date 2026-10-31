@@ -84,6 +84,16 @@ h3 {
   top: var(--space-3);
 }
 
+/* Marcador nos primeiros 4px da página: saiu da tela, a página rolou (ver Header). */
+.page-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 4px;
+  pointer-events: none;
+}
+
 /* Botões (hero e demais seções) */
 .btn {
   display: inline-flex;
@@ -141,7 +151,9 @@ h3 {
   width: fit-content;
 }
 
-html[data-motion="on"] [data-reveal] {
+/* A transição só existe no estado revelado: ao ligar o movimento, o que está fora
+   da tela se esconde na hora, em vez de animar a saída durante o carregamento. */
+html[data-motion="on"] [data-reveal][data-revealed] {
   transition:
     opacity var(--dur-reveal) ease-out,
     transform var(--dur-reveal) var(--ease-write);
@@ -159,7 +171,6 @@ html[data-motion="on"] [data-reveal="title"],
 html[data-motion="on"] [data-reveal="title"]:not([data-revealed]) {
   opacity: 1;
   transform: none;
-  transition: clip-path var(--dur-title-reveal) var(--ease-write);
 }
 
 /* Resta 1px visível: o IntersectionObserver mede a área já cortada pelo
@@ -170,6 +181,7 @@ html[data-motion="on"] [data-reveal="title"]:not([data-revealed]) {
 
 html[data-motion="on"] [data-reveal="title"][data-revealed] {
   clip-path: inset(-20% -5% -25% -5%);
+  transition: clip-path var(--dur-title-reveal) var(--ease-write);
 }
 
 /* ---------- Ímã nos botões (só ponteiro fino) ---------- */
@@ -245,6 +257,7 @@ main {
       z-index: -1;
       display: block;
       overflow: hidden;
+      contain: strict;
       pointer-events: none;
       /* Brilho quente no ponto de fuga. */
       background: radial-gradient(

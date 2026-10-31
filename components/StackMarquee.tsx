@@ -58,6 +58,7 @@ export default function StackMarquee({
     <div
       className={styles.root}
       data-paused={paused}
+      data-pause-offscreen
       data-reveal
       style={{ "--i": 1 } as React.CSSProperties}
     >

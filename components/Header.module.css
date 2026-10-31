@@ -184,3 +184,21 @@
   transform-origin: left;
   pointer-events: none;
 }
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .progress {
+      animation: progress-grow linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+
+@keyframes progress-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

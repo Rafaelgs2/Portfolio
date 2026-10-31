@@ -34,7 +34,12 @@ export default function Hero() {
         </a>
       </div>
 
-      <a href="#about" className={styles.cue} aria-label={t("scrollHint")}>
+      <a
+        href="#about"
+        className={styles.cue}
+        aria-label={t("scrollHint")}
+        data-pause-offscreen
+      >
         <span className={styles.cueLabel}>{t("scroll")}</span>
         <span className={styles.cueTrack} aria-hidden="true">
           <span className={styles.cueDot} />
