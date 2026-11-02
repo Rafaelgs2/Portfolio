@@ -209,6 +209,54 @@ export const projects: Project[] = [
     },
   },
   {
+    id: "transfer2u",
+    type: { pt: "Full Stack", en: "Full Stack" },
+    title: "Transfer2U",
+    summary: {
+      pt: "Envie textos e arquivos do celular para o computador em salas temporárias, sem cadastro, com senha e QR code.",
+      en: "Send text and files from phone to computer in temporary rooms, with no sign-up, password protection and QR code.",
+    },
+    tech: ["Next.js", "TypeScript", "Upstash Redis", "Vercel Blob"],
+    image: "/projects/transfer2u.png",
+    live: "https://transfer2u.vercel.app",
+    github: "https://github.com/Rafaelgs2/Tranfer2U",
+    details: {
+      overview: {
+        pt: "O Transfer2U resolve um problema comum: passar um texto ou arquivo do celular para o computador (ou para outra pessoa) sem login nem app. Você cria uma sala, compartilha o link ou o QR code e tudo some quando ela expira. O foco foi em segurança e em contornar os limites do plano gratuito da Vercel.",
+        en: "Transfer2U solves a common problem: moving text or a file from your phone to your computer (or to someone else) with no login and no app. You create a room, share the link or QR code, and everything disappears when it expires. The focus was on security and on working around Vercel's free-tier limits.",
+      },
+      features: {
+        pt: [
+          "Salas temporárias de 1 hora, 24 horas ou 7 dias, sem cadastro.",
+          "Entrada por link, QR code ou código de 6 caracteres, com senha opcional.",
+          "Senhas guardadas como hash bcrypt e acesso por cookie JWT assinado.",
+          "Upload de arquivos de até 50 MB direto para o Vercel Blob, contornando o limite de 4,5 MB das funções.",
+          "Limite de tentativas por IP na entrada por código, contra força bruta.",
+          "Salas e mensagens no Upstash Redis com expiração, e cron diário que apaga arquivos vencidos.",
+          "Atualização automática por polling que só roda com a aba visível.",
+        ],
+        en: [
+          "Temporary rooms of 1 hour, 24 hours or 7 days, with no sign-up.",
+          "Join by link, QR code or 6-character code, with an optional password.",
+          "Passwords stored as bcrypt hashes, with access through a signed JWT cookie.",
+          "Uploads up to 50 MB straight to Vercel Blob, getting around the 4.5 MB function limit.",
+          "Per-IP rate limiting on code-based joins, against brute force.",
+          "Rooms and messages in Upstash Redis with expiry, and a daily cron that deletes expired files.",
+          "Automatic refresh through polling that only runs while the tab is visible.",
+        ],
+      },
+      gallery: [
+        {
+          src: "/projects/transfer2u.png",
+          caption: {
+            pt: "Página inicial, com entrada por código e criação de sala",
+            en: "Home page, with join by code and room creation",
+          },
+        },
+      ],
+    },
+  },
+  {
     id: "rt-burguer",
     type: { pt: "Front-end", en: "Front-end" },
     title: "RT BURGUER",
