@@ -257,6 +257,82 @@ export const projects: Project[] = [
     },
   },
   {
+    id: "bti",
+    type: { pt: "Dados", en: "Data" },
+    title: "Brazil Traffic Intelligence",
+    summary: {
+      pt: "Onde, quando e por que acidentes em rodovias federais viram mortes: 632 mil registros da PRF, 2017–2025.",
+      en: "Where, when and why crashes on federal highways turn fatal: 632k PRF records, 2017–2025.",
+    },
+    tech: ["Python", "SQL", "PostgreSQL", "Power BI"],
+    image: "/projects/bti.png",
+    live: "https://bti-brazil-traffic-intelligence-six.vercel.app",
+    github: "https://github.com/Rafaelgs2/BTI---Brazil-Traffic-Intelligence",
+    details: {
+      overview: {
+        pt: "Um projeto de dados de ponta a ponta sobre os acidentes registrados pela Polícia Rodoviária Federal entre 2017 e 2025. Um pipeline de um comando baixa os dados oficiais, audita a qualidade, carrega um modelo estrela no PostgreSQL e alimenta um painel em Power BI e um protótipo HTML interativo. O foco é a gravidade dado o acidente e a concentração por trecho, sem afirmar causa: não há dados de tráfego para medir o risco de dirigir.",
+        en: "An end-to-end data project on crashes recorded by Brazil's Federal Highway Police between 2017 and 2025. A one-command pipeline downloads the official data, audits its quality, loads a star schema into PostgreSQL and feeds a Power BI dashboard and an interactive HTML prototype. The focus is severity given a crash and concentration by road segment, with no causal claims: there is no traffic data to measure the risk of driving.",
+      },
+      features: {
+        pt: [
+          "Pipeline reproduzível com um comando (python -m bti.pipeline): ingestão com hash SHA-256, auditoria, transformação em Parquet e carga no banco.",
+          "Modelo estrela no PostgreSQL (7 dimensões, 2 fatos) e 10 consultas com CTEs e window functions, conferidas contra o pandas.",
+          "Auditoria de qualidade com 13 achados, como a quebra de registro de abril de 2018 e a mudança na lista de causas.",
+          "Estatística com ressalvas: intervalos de Wilson, regressão logística com erros agrupados, STL e correção para múltiplos testes.",
+          "Dashboard em Power BI criado como código (PBIP, TMDL e PBIR), com 6 páginas e 71 visuais.",
+          "Protótipo HTML em um único arquivo, com 8 abas, filtros de período e região, modo dia e noite e gráficos SVG feitos à mão.",
+          "31 testes automatizados que conferem totais, contratos de dados e a reconciliação entre SQL e Python.",
+        ],
+        en: [
+          "Reproducible one-command pipeline (python -m bti.pipeline): ingestion with SHA-256 hashes, auditing, Parquet transformation and database load.",
+          "PostgreSQL star schema (7 dimensions, 2 facts) and 10 queries with CTEs and window functions, checked against pandas.",
+          "Data-quality audit with 13 findings, such as the April 2018 registry break and the change in the cause list.",
+          "Statistics with caveats: Wilson intervals, logistic regression with clustered errors, STL and multiple-testing correction.",
+          "Power BI dashboard built as code (PBIP, TMDL and PBIR), with 6 pages and 71 visuals.",
+          "Single-file HTML prototype with 8 tabs, period and region filters, day and night modes and hand-built SVG charts.",
+          "31 automated tests that check totals, data contracts and the reconciliation between SQL and Python.",
+        ],
+      },
+      gallery: [
+        {
+          src: "/projects/bti/visao-geral.png",
+          caption: {
+            pt: "Visão geral: mortos, acidentes com vítimas, % fatais e índice de gravidade",
+            en: "Overview: deaths, crashes with victims, % fatal and severity index",
+          },
+        },
+        {
+          src: "/projects/bti/onde.png",
+          caption: {
+            pt: "Onde: mapa de trechos de 10 km e ranking dos que mais concentram mortes",
+            en: "Where: map of 10 km segments and ranking of those with the most deaths",
+          },
+        },
+        {
+          src: "/projects/bti/quando.png",
+          caption: {
+            pt: "Quando: mapas de calor de volume e de gravidade por dia e hora",
+            en: "When: heatmaps of volume and severity by weekday and hour",
+          },
+        },
+        {
+          src: "/projects/bti/por-que-e-grave.png",
+          caption: {
+            pt: "Por que é grave: tipos de acidente, causas e condições do local",
+            en: "Why it is severe: crash types, causes and road conditions",
+          },
+        },
+        {
+          src: "/projects/bti/quem.png",
+          caption: {
+            pt: "Quem: tipo de usuário, idade e sexo das vítimas",
+            en: "Who: user type, age and sex of victims",
+          },
+        },
+      ],
+    },
+  },
+  {
     id: "rt-burguer",
     type: { pt: "Front-end", en: "Front-end" },
     title: "RT BURGUER",
