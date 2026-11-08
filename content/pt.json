@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Rafael Silva | Desenvolvedor Full Stack",
-    "description": "Portfólio de Rafael Silva, desenvolvedor web e full stack. Projetos, stack e experiência."
+    "title": "Rafael Silva | Portfólio de projetos",
+    "description": "Portfólio de projetos de Rafael Silva. Projetos, stack e experiência."
   },
   "a11y": {
     "skip": "Pular para o conteúdo",
@@ -21,7 +21,7 @@
   },
   "hero": {
     "title": "Rafael Silva",
-    "subtitle": "Desenvolvedor Full Stack",
+    "subtitle": "Portfólio de projetos",
     "ctaProjects": "Ver projetos",
     "ctaContact": "Contato",
     "scroll": "Role",
@@ -30,7 +30,7 @@
   "about": {
     "title": "Sobre mim",
     "education": "Bacharelado em Sistemas de Informação",
-    "p1": "Desenvolvedor web e full stack com experiência em tecnologia em uma empresa multinacional, onde atuei com suporte técnico, infraestrutura e desenvolvimento.",
+    "p1": "Tenho experiência em tecnologia em uma empresa multinacional, onde atuei com suporte técnico, infraestrutura e desenvolvimento.",
     "p2": "Essa vivência me deu uma visão prática de como o software é usado no dia a dia das empresas e do que ele precisa entregar para gerar valor ao negócio. Estou sempre em busca de oportunidades para contribuir com soluções e continuar evoluindo."
   },
   "projects": {
@@ -90,7 +90,7 @@
   },
   "contact": {
     "title": "Vamos conversar?",
-    "text": "Estou aberto a oportunidades em desenvolvimento web e full stack. Se o meu trabalho faz sentido para o seu time ou projeto, será um prazer conversar.",
+    "text": "Estou aberto a novas oportunidades. Se o meu trabalho faz sentido para o seu time ou projeto, será um prazer conversar.",
     "email": "E-mail",
     "linkedin": "LinkedIn",
     "github": "GitHub",
@@ -102,7 +102,7 @@
   },
   "footer": {
     "copyright": "© {year} Rafael Silva",
-    "role": "Desenvolvedor Full Stack"
+    "role": "Portfólio de projetos"
   },
   "notFound": {
     "title": "Página não encontrada",

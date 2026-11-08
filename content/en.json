@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Rafael Silva | Full Stack Developer",
-    "description": "Portfolio of Rafael Silva, web and full stack developer. Projects, tech stack and experience."
+    "title": "Rafael Silva | Project Portfolio",
+    "description": "Project portfolio of Rafael Silva. Projects, tech stack and experience."
   },
   "a11y": {
     "skip": "Skip to content",
@@ -21,7 +21,7 @@
   },
   "hero": {
     "title": "Rafael Silva",
-    "subtitle": "Full Stack Developer",
+    "subtitle": "Project Portfolio",
     "ctaProjects": "View projects",
     "ctaContact": "Contact",
     "scroll": "Scroll",
@@ -30,7 +30,7 @@
   "about": {
     "title": "About me",
     "education": "Bachelor's program in Information Systems",
-    "p1": "Web and full stack developer with experience in technology at a multinational company, where I worked in technical support, infrastructure and development.",
+    "p1": "I have experience in technology at a multinational company, where I worked in technical support, infrastructure and development.",
     "p2": "That experience gave me a practical view of how software is used in a company's day-to-day work and what it needs to deliver to create business value. I'm always looking for opportunities where I can contribute solutions and keep growing."
   },
   "projects": {
@@ -90,7 +90,7 @@
   },
   "contact": {
     "title": "Let's talk.",
-    "text": "I'm open to opportunities in web and full stack development. If my work fits your team or project, I'd be glad to talk.",
+    "text": "I'm open to new opportunities. If my work fits your team or project, I'd be glad to talk.",
     "email": "Email",
     "linkedin": "LinkedIn",
     "github": "GitHub",
@@ -102,7 +102,7 @@
   },
   "footer": {
     "copyright": "© {year} Rafael Silva",
-    "role": "Full Stack Developer"
+    "role": "Project Portfolio"
   },
   "notFound": {
     "title": "Page not found",
